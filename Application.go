@@ -104,7 +104,7 @@ func main() {
 	prx.OnConnect = OnConnect
 	prx.OnRequest = OnRequest
 	prx.OnResponse = OnResponse
-	log.Printf("%s", "Server start success on :35246")
+	log.Printf("%s", "Server start success on :35246 .")
 	// Listen...
 	http.ListenAndServe(":35246", prx)
 }
