@@ -12,7 +12,7 @@ import (
 func OnError(ctx *httpproxy.Context, where string,
 	err *httpproxy.Error, opErr error) {
 	// Log errors.
-	log.Printf("ERR: %s: %s [%s]", where, err, opErr)
+	//log.Printf("ERR: %s: %s [%s]", where, err, opErr)
 }
 
 func OnAccept(ctx *httpproxy.Context, w http.ResponseWriter,
@@ -43,9 +43,14 @@ func OnConnect(ctx *httpproxy.Context, host string) (
 func OnRequest(ctx *httpproxy.Context, req *http.Request) (
 	resp *http.Response) {
 	// Log proxying requests.
+	if strings.Index(req.URL.String(), "aqy-app.lgb360.com") == -1 {
+		return
+	}
+
 	if strings.Index(req.URL.String(), "static") == -1 {
 		log.Printf("INFO: Proxy: %s %s", req.Method, req.URL.String())
 	}
+
 	s, err := ioutil.ReadAll(req.Body)
 	if err != nil {
 		log.Printf("OnRequest error %s", err.Error())
@@ -73,6 +78,9 @@ func OnRequest(ctx *httpproxy.Context, req *http.Request) (
 func OnResponse(ctx *httpproxy.Context, req *http.Request,
 	resp *http.Response) {
 	// Add header "Via: go-httpproxy".
+	if strings.Index(req.URL.String(), "aqy-app.lgb360.com") == -1 {
+		return
+	}
 	if resp.Header.Get("Content-Type") != "application/json" || resp.Header.Get("Content-Encoding") != "gzip" {
 		return
 	}
