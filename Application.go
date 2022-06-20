@@ -91,7 +91,7 @@ func OnResponse(ctx *httpproxy.Context, req *http.Request,
 		Url:  req.URL.String(),
 		Data: body,
 	}
-	temp := updateBody(r)
+	temp := answer(r)
 	if temp != "" {
 		body = temp
 	}
@@ -101,10 +101,8 @@ func OnResponse(ctx *httpproxy.Context, req *http.Request,
 }
 
 func main() {
-
-	// Create a new proxy with default certificate pair.
+	initJson()
 	prx, _ := httpproxy.NewProxy()
-
 	// Set handlers.
 	prx.OnError = OnError
 	prx.OnAccept = OnAccept
